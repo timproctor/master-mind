@@ -1,4 +1,5 @@
 class CodeGenerator
+  attr_reader :code
 
   def initialize(level)
     @level = level
@@ -16,31 +17,27 @@ class CodeGenerator
   end
 
   def beginner
-    beginner = %w(r g b y).join
+    beginner = %w(r g b y)
   end
 
   def advanced
-    advanced = %w(roygbp).join
+    advanced = %w(r o y g b p)
   end
 
   def expert
-    expert   = %w(roygbpwb).join
+    expert   = %w(r o y g b p w b)
   end
 
-  
+  def code
+    @code = Array.new
+    (@level.length).times do
+      @code << @level.shuffle.first
+    end
+    @code.join
+  end
 
-
-
-
-
-  # def code
-  #   @code = Array.new
-  #   .times do
-  #     @code << @possible.shuffle.first
-  #   end
-  #   @code
-  # end
 end
 
-generator = CodeGenerator.new("beginner")
-p generator.level
+# generator = CodeGenerator.new("expert")
+# p generator.level
+# p generator.code
