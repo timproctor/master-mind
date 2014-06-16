@@ -1,0 +1,3 @@
+class CodeValidator
+  
+end
