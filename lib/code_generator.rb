@@ -1,16 +1,25 @@
 require './lib/code'
 
 class CodeGenerator
-  attr_reader :level, :sequence
+  attr_reader :level, :sequence, :length
+
+  def self.level(level)
+    
+    generator.code.sequence
+  end
 
   def initialize(level)
+    @length = length
     @level = level
     if @level == 'beginner'
       @level = beginner
+      @length = 4
     elsif @level == 'advanced'
       @level = advanced
+      @length = 6
     else @level == 'expert'
       @level = expert
+      @length = 8
     end
   end
 
@@ -19,16 +28,16 @@ class CodeGenerator
   end
 
   def advanced
-    advanced = %w(r o y g b p)
+    advanced = %w(r o y g b )
   end
 
   def expert
-    expert   = %w(r o y g b p w b)
+    expert   = %w(r o y g b p)
   end
 
   def code
     code = Array.new
-    (@level.length).times do
+    (@length).times do
       code << @level.shuffle.first
     end
     Code.new(code.join)
@@ -36,6 +45,6 @@ class CodeGenerator
 
 end
 
-generator = CodeGenerator.new("beginner")
-# puts generator.level
-puts generator.code.sequence
+# generator = CodeGenerator.new("beginner")
+# # puts generator.level
+# puts generator.code.sequence
