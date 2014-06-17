@@ -1,19 +1,17 @@
+require './lib/code'
+
 class CodeGenerator
-  attr_reader :code
+  attr_reader :level, :sequence
 
   def initialize(level)
     @level = level
-  end
-
-  def level
-    if @level    == 'beginner'
+    if @level == 'beginner'
       @level = beginner
     elsif @level == 'advanced'
       @level = advanced
-    elsif @level == 'expert'
+    else @level == 'expert'
       @level = expert
     end
-      @level
   end
 
   def beginner
@@ -29,15 +27,15 @@ class CodeGenerator
   end
 
   def code
-    @code = Array.new
+    code = Array.new
     (@level.length).times do
-      @code << @level.shuffle.first
+      code << @level.shuffle.first
     end
-    @code.join
+    Code.new(code.join)
   end
 
 end
 
-# generator = CodeGenerator.new("expert")
-# p generator.level
-# p generator.code
+generator = CodeGenerator.new("beginner")
+# puts generator.level
+puts generator.code.sequence

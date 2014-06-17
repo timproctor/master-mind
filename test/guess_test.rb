@@ -12,4 +12,6 @@ class GuessTest<Minitest::Test
     guess = Guess.new('rgby')
     assert_equal 'rgby', guess.attempt
   end
+
+
 end
