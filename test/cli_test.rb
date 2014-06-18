@@ -35,7 +35,7 @@ class CliTest < Minitest::Test
 
   def test_it_can_process_input
     input   = '   Q '
-    result  = cli.process_input(input)
+    result  = cli.process_input
 
     assert_equal 'q', result
   end
@@ -49,8 +49,8 @@ class CliTest < Minitest::Test
 
   def test_it_assigns_instructions
     input    = 'p'
-    instruct = cli.process_input(input)
+    instruct = cli.process_input
     cli.assign_instructions(instruct)
-    assert cli.execute_commands
+    assert cli.execute_game
   end
 end

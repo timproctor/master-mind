@@ -1,3 +1,7 @@
+require './lib/guess'
+require './lib/code_generator'
+require 'pry'
+
 
 class Cli
   def self.run
@@ -8,44 +12,50 @@ class Cli
 
   attr_reader :commands, :turns, :game
 
+
   def initialize(game)
     @commands = ""
+    @code     = code.sequence
+    validator = CodeValidator.new
     @turns    = ""
     @game     = game
   end
 
-  def process_input(input)
-    input.strip.downcase
+  def process_input
+    gets.strip.downcase
   end
 
-  def format_turn(input)
-    formated = process_input(input)
-    formated.split("").select do |letter|
+  def format_turn
+    gets.formatted.split("").select do |letter|
       letter =~ /[rgby]/
     end.join
   end
 
   def assign_instructions(parts)
-    if parts == 'p'
+    if parts   == 'p'
       puts "\n"
       puts "I have generated a beginner level sequence with four"
       puts "elements made up of: (r)ed, (b)lue, (g)reen, (y)ellow."
       puts "Use (q)uit at anytime to end the game."
-      puts "What's your guess?"
-    elsif parts == 'quit'
-      outtro
+      puts "\nI'll get the game...\n"
+    else parts == 'i'
+      puts "\n"
+      puts 'A four character code has been stored, like "rbyb", and after'
+      puts 'your guess, the computer will let you know how close you are.'
+      puts 'The game ends when you correctly input the secret code.'
+      puts "\n"
+      puts 'Would you like to (p)lay, read the (i)nstructions, or (q)uit?'
     end
-
-
   end
 
-  def execute_commands
-    input = format_turn(gets.chomp)
-    while (input.split("").length < 5) || commands != 'q'
-      puts 'Please re-enter at least a four letter sequence, like "rgyy":  '
-      input = format_turn(gets.chomp)
+  def execute_game
+    generator = CodeGenerator.new("beginner")
+    validator = CodeValidator.new
+    puts "\nWhat is your guess?"
+    while turns == validator.full_match?
+
     end
-    game.turn(guess)
+    puts "Congratualations"
   end
 
   def guess_es
@@ -59,26 +69,32 @@ class Cli
   def intro
     puts "\n"
     puts "Welcome to MASTERMIND"
-    puts "Would you like to (p)lay, read the (i)instructions, or (q)uit?"
+    puts "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
     puts "\n"
   end
 
   def start
     intro
-    input = ""
 
-    while input not= 'q'
-      gets.chomp
-      # parts = process_input(gets)
-      # assign_instructions(parts)
+    while commands != 'q'
+      @commands = process_input
+      assign_instructions(@commands)
+        if @commands == 'p'
+          execute_game
+        end
     end
 
-    puts "Congratulations! You guessed the sequence  in   over  seconds."
-    puts "Do you want to (p)lay again or (q)uit?"
+    outtro
   end
 
   def outtro
-    puts "Do you want to (p)lay again or (q)uit?"
+    puts "\nDo you want to (p)lay again or (q)uit? "
+    @commands = process_input
+      if @commands == 'p'
+        Cli.run
+      else
+        puts "Have a great day not playing mastermind, if you can."
+      end
   end
 
 end
