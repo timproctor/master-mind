@@ -1,12 +1,12 @@
 require './lib/code'
 
 class CodeGenerator
-  attr_reader :level, :sequence
+  attr_reader :level, :sequence, :length
 
-  def self.level(level)
-
-    generator.code.sequence
-  end
+  # def self.level(level)
+  #
+  #   generator.code.sequence
+  # end
 
   def initialize(level)
     @length = length
@@ -45,6 +45,6 @@ class CodeGenerator
 
 end
 
-# generator = CodeGenerator.new("beginner")
-# # puts generator.level
+generator = CodeGenerator.new("beginner")
+# puts generator.level
 # puts generator.code.sequence

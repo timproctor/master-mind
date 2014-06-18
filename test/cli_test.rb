@@ -47,5 +47,10 @@ class CliTest < Minitest::Test
     assert_equal 'rgy', result
   end
 
-    
+  def test_it_assigns_instructions
+    input    = 'p'
+    instruct = cli.process_input(input)
+    cli.assign_instructions(instruct)
+    assert cli.execute_commands
+  end
 end
