@@ -7,10 +7,17 @@ class CodeValidator
   def checker(guess, code)
     guess = guess.attempt.split("")
     code  = code.sequence.split("")
-
-    guess.select do |letter|
-      code.include?(letter)
-    end.length
+    count = 0
+    guess.length.times do |index|
+      code.length.times do |index2|
+        if guess[index] == code[index2]
+          count += 1
+          code[index2] = ""
+          break
+        end
+      end
+    end
+    count
   end
 
   def checker_index(guess, code)
@@ -28,8 +35,6 @@ class CodeValidator
   def full_match?(guess, code)
     guess.attempt == code.sequence
   end
-
-
 end
 
 

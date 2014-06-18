@@ -26,8 +26,8 @@ class Cli
   end
 
   def format_turn
-    gets.formatted.split("").select do |letter|
-      letter =~ /[rgby]/
+    gets.split("").select do |letter|
+      letter =~ /[rgbyq]/
     end.join
   end
 
@@ -52,18 +52,24 @@ class Cli
     code      = CodeGenerator.new("beginner").code
     validator = CodeValidator.new
     puts "\nWhat is your guess?"
-    guess = Guess.new(gets.chomp)
-    until validator.full_match?(guess, code)
-      matching_elements  = validator.checker(guess, code)
-      matching_positions = validator.checker_index(guess, code)
-      puts "You got #{matching_elements} matches in #{matching_positions} positions."
-      guess = Guess.new(gets.chomp)
+    @turn = Guess.new(format_turn)
+    until validator.full_match?(@turn, code)
+      matching_elements  = validator.checker(@turn, code)
+      matching_positions = validator.checker_index(@turn, code)
+      puts "\n\n\n"
+      puts "\'#{@turn.attempt}\' has #{matching_elements} of the correct elements with"
+      puts "#{matching_positions} in the correct positions."
+      puts "\n\n\nYou've taken #{game.num_of_guesses} guess(es)."
+      @turn = Guess.new(format_turn)
+      game.turn(@turn)
     end
-    puts "Congratualations, you win!"
+    puts "Congratualations! You guessed the sequence \'#{code.sequence}\'!"
+    puts "It took you #{@turn.attempt} #{guess_es} in over"
+    puts "#{game.times[-1] - game.times[0]}"
   end
 
   def guess_es
-    if game.num_of_guesses.length < 2
+    if @turn.attempt < 2
       "guess"
     else
       "guesses"

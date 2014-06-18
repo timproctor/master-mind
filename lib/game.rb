@@ -2,14 +2,14 @@ class Game
   attr_reader :num_of_guesses, :times
 
   def initialize
-    @num_of_guesses = 0
+    @num_of_guesses = 1
     @holds_guess    = Array.new
     @times          = Array.new
   end
 
   def turn(guess)
     @holds_guess << guess
-    @num_of_guesses += @holds_guess.length
+    @num_of_guesses += 1
     clock
   end
 
