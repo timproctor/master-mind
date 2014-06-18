@@ -1,10 +1,10 @@
 require './lib/code'
 
 class CodeGenerator
-  attr_reader :level, :sequence, :length
+  attr_reader :level, :sequence
 
   def self.level(level)
-    
+
     generator.code.sequence
   end
 
