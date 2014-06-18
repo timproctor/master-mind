@@ -1,1 +1,2 @@
-Code = Struct.new(:sequence)
+class Code < Struct.new(:sequence)
+end

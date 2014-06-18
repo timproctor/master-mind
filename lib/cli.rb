@@ -15,7 +15,7 @@ class Cli
 
   def initialize(game)
     @commands = ""
-    @code     = code.sequence
+    # @code     = code.sequence
     validator = CodeValidator.new
     @turns    = ""
     @game     = game
@@ -49,13 +49,17 @@ class Cli
   end
 
   def execute_game
-    generator = CodeGenerator.new("beginner")
+    code      = CodeGenerator.new("beginner").code
     validator = CodeValidator.new
     puts "\nWhat is your guess?"
-    while turns == validator.full_match?
-
+    guess = Guess.new(gets.chomp)
+    until validator.full_match?(guess, code)
+      matching_elements  = validator.checker(guess, code)
+      matching_positions = validator.checker_index(guess, code)
+      puts "You got #{matching_elements} matches in #{matching_positions} positions."
+      guess = Guess.new(gets.chomp)
     end
-    puts "Congratualations"
+    puts "Congratualations, you win!"
   end
 
   def guess_es

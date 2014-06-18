@@ -41,6 +41,6 @@ class CodeGenerator
   end
 end
 
-generator = CodeGenerator.new("beginner")
+# generator = CodeGenerator.new("beginner")
 # puts generator.level
 # puts generator.code.sequence
