@@ -1,6 +1,6 @@
 require './lib/guess'
 require './lib/code_generator'
-
+require './lib/game'
 
 class CodeValidator
 
@@ -35,6 +35,8 @@ class CodeValidator
   def full_match?(guess, code)
     guess.attempt == code.sequence
   end
+
+
 end
 
 

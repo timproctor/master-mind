@@ -32,20 +32,23 @@ class Cli
   end
 
   def assign_instructions(parts)
-    if parts   == 'p'
+    if parts    == 'p'
       puts "\n"
       puts "I have generated a beginner level sequence with four"
       puts "elements made up of: (r)ed, (b)lue, (g)reen, (y)ellow."
       puts "Use (q)uit at anytime to end the game."
       puts "\nI'll get the game...\n"
-    else parts == 'i'
+    elsif parts == 'i'
       puts "\n"
       puts 'A four character code has been stored, like "rbyb", and after'
       puts 'your guess, the computer will let you know how close you are.'
       puts 'The game ends when you correctly input the secret code.'
       puts "\n"
       puts 'Would you like to (p)lay, read the (i)nstructions, or (q)uit?'
+    else  parts == 'q'
+      outtro
     end
+
   end
 
   def execute_game
@@ -76,7 +79,7 @@ class Cli
       outtro
     else
       puts "Maybe next time, you'll bring your A-game."
-      outtro
+      # outtro
     end
   end
 
@@ -120,10 +123,11 @@ class Cli
   def outtro
     puts "\n(p)lay or (q)uit? "
     @commands = process_input
-      if @commands == 'p'
+      if @commands   == 'p'
         Cli.run
-      else
+      else @commands == 'q'
         puts "Have a great day not playing mastermind, if you can."
+        Cli.run
       end
   end
 
