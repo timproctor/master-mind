@@ -10,14 +10,14 @@ class Cli
     new(game).start
   end
 
-  attr_reader :commands, :turns, :game
+  attr_reader :commands, :turn, :game
 
 
   def initialize(game)
     @commands = ""
     # @code     = code.sequence
     validator = CodeValidator.new
-    @turns    = ""
+    @turn     = ""
     @game     = game
   end
 
@@ -54,6 +54,9 @@ class Cli
     puts "\nWhat is your guess?"
     @turn = Guess.new(format_turn)
     until validator.full_match?(@turn, code)
+      if @turn.attempt == 'q'
+        break
+      end
       matching_elements  = validator.checker(@turn, code)
       matching_positions = validator.checker_index(@turn, code)
       puts "\n\n\n"
@@ -61,15 +64,16 @@ class Cli
       puts "#{matching_positions} in the correct positions."
       puts "\n\n\nYou've taken #{game.num_of_guesses} guess(es)."
       @turn = Guess.new(format_turn)
+
       game.turn(@turn)
     end
     puts "Congratualations! You guessed the sequence \'#{code.sequence}\'!"
-    puts "It took you #{@turn.attempt} #{guess_es} in over"
+    puts "It took you #{game.num_of_guesses} #{guess_es} in over"
     puts "#{game.times[-1] - game.times[0]}"
   end
 
   def guess_es
-    if @turn.attempt < 2
+    if game.num_of_guesses < 2
       "guess"
     else
       "guesses"
