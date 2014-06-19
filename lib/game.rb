@@ -1,5 +1,5 @@
 class Game
-  attr_reader :num_of_guesses, :times
+  attr_accessor :num_of_guesses, :times
 
   def initialize
     @num_of_guesses = 1

@@ -25,11 +25,24 @@ class Cli
     gets.strip.downcase
   end
 
-  def format_turn
-    gets.split("").select do |letter|
-      letter =~ /[rgbyq]/
-    end.join
+  def proper_format?
+    (@turn.length == 4) || (@turn[0] == 'q')
   end
+
+  def format_turn
+    @turn = gets.downcase.split("").select do |letter|
+      letter =~ /[rgbyq]/
+    end
+
+    until proper_format?
+      puts "\n\nRe-enter like, \'rrgr\' with exactly four characters: "
+      puts "r for red, b for blue, g for green, or y for yellow."
+      format_turn
+    end
+
+    @turn.join
+  end
+
 
   def assign_instructions(parts)
     if parts   == 'p'
@@ -37,6 +50,7 @@ class Cli
       puts "I have generated a beginner level sequence with four"
       puts "elements made up of: (r)ed, (b)lue, (g)reen, (y)ellow."
       puts "Use (q)uit at anytime to end the game."
+      # puts "\n\nBeginner"
       puts "\nI'll get the game...\n"
     else parts == 'i'
       puts "\n"
@@ -73,8 +87,10 @@ class Cli
       puts "Congratualations! You guessed the sequence \'#{code.sequence}\'!"
       puts "It took you #{game.num_of_guesses} #{guess_es} in over"
       puts "#{game.print_time}"
+      outtro
     else
       puts "Maybe next time, you'll bring your A-game."
+      outtro
     end
   end
 
@@ -108,7 +124,7 @@ class Cli
   end
 
   def outtro
-    puts "\nDo you want to (p)lay again or (q)uit? "
+    puts "\n(p)lay or (q)uit? "
     @commands = process_input
       if @commands == 'p'
         Cli.run
