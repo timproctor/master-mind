@@ -15,7 +15,7 @@ Some features of this CLI game are:
   that they want to quit with 'q'.
 
 - User may input absolute garbage like '12    R  ****   B' and game
-  will parse out anything characters that are usable. In the above
+  will parse out any characters that are usable. In the above
   example, the game will save the 'r' and 'b' but still give a message
   to the user that their guess is too short or too long.
 
