@@ -23,14 +23,25 @@ class Game
     @times
   end
 
-  def print_time(time_difference)
-    days = hours = mins = 0
-      mins = (seconds / 60).to_i
-      seconds = (seconds % 60 ).to_i
-      hours = (mins / 60).to_i
-      mins = (mins % 60).to_i
-      days = (hours / 24).to_i
-      hours = (hours % 24).to_i
+  def time_difference
+    @times[-1] - @times[0]
+  end
+
+  def print_time
+    secs  = time_difference.to_int
+    mins  = secs / 60
+    hours = mins / 60
+    days  = hours / 24
+
+    if days > 0
+      "#{days} days and #{hours % 24} hours"
+    elsif hours > 0
+      "#{hours} hours and #{mins % 60} minutes"
+    elsif mins > 0
+      "#{mins} minutes and #{secs % 60} seconds"
+    elsif secs >= 0
+      "#{secs} seconds"
+    end
   end
 
 end

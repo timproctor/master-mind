@@ -54,22 +54,28 @@ class Cli
     puts "\nWhat is your guess?"
     @turn = Guess.new(format_turn)
     until validator.full_match?(@turn, code)
+
       if @turn.attempt == 'q'
         break
       end
+
       matching_elements  = validator.checker(@turn, code)
       matching_positions = validator.checker_index(@turn, code)
       puts "\n\n\n"
       puts "\'#{@turn.attempt}\' has #{matching_elements} of the correct elements with"
       puts "#{matching_positions} in the correct positions."
-      puts "\n\n\nYou've taken #{game.num_of_guesses} guess(es)."
+      puts "\n\n\nYou've taken #{game.num_of_guesses} #{guess_es}."
       @turn = Guess.new(format_turn)
-
       game.turn(@turn)
     end
-    puts "Congratualations! You guessed the sequence \'#{code.sequence}\'!"
-    puts "It took you #{game.num_of_guesses} #{guess_es} in over"
-    puts "#{game.times[-1] - game.times[0]}"
+
+    if validator.full_match?(@turn, code)
+      puts "Congratualations! You guessed the sequence \'#{code.sequence}\'!"
+      puts "It took you #{game.num_of_guesses} #{guess_es} in over"
+      puts "#{game.print_time}"
+    else
+      puts "Maybe next time, you'll bring your A-game."
+    end
   end
 
   def guess_es
