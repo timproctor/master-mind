@@ -26,7 +26,7 @@ class CliTest < Minitest::Test
   end
 
   def test_it_takes_turns
-    assert cli.turns
+    assert cli.turn
   end
 
   def test_it_has_a_game
@@ -34,6 +34,7 @@ class CliTest < Minitest::Test
   end
 
   def test_it_can_process_input
+    skip
     input   = '   Q '
     result  = cli.process_input
 
@@ -41,13 +42,15 @@ class CliTest < Minitest::Test
   end
 
   def test_it_formats_turns
+    skip
     input     = '  RGXY'
-    result    = cli.format_turn(input)
+    result    = cli.format_turn
 
     assert_equal 'rgy', result
   end
 
   def test_it_assigns_instructions
+    skip
     input    = 'p'
     instruct = cli.process_input
     cli.assign_instructions(instruct)

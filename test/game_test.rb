@@ -12,14 +12,13 @@ class GameTest < Minitest::Test
 
   def test_that_new_game_has_no_guesses
     game = Game.new
-    assert_equal 0, game.num_of_guesses
+    assert_equal 1, game.num_of_guesses
   end
 
   def test_that_a_guess_will_add_to_guesses
     game = Game.new
-    guess = Guess.new('rgby')
     game.turn('rgby')
-    assert_equal 1, game.num_of_guesses
+    assert_equal 2, game.num_of_guesses
   end
 
   def test_that_a_history_of_guesses_exists

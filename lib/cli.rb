@@ -2,47 +2,34 @@ require './lib/guess'
 require './lib/code_generator'
 require 'pry'
 
-
 class Cli
+  attr_reader :commands, :turn, :game
+
   def self.run
-    # code  = CodeGenerator.new(level='beginner').code.sequence
     game  = Game.new
     new(game).start
   end
 
-  attr_reader :commands, :turn, :game
-
-
   def initialize(game)
     @commands = ""
-    # @code     = code.sequence
     validator = CodeValidator.new
     @turn     = ""
     @game     = game
   end
 
-  def process_input
-    gets.strip.downcase
-  end
+  def start
+    intro
 
-  def proper_format?
-    (@turn.length == 4) || (@turn[0] == 'q')
-  end
-
-  def format_turn
-    @turn = gets.downcase.split("").select do |letter|
-      letter =~ /[rgbyq]/
+    while commands != 'q'
+      @commands = process_input
+      assign_instructions(@commands)
+        if @commands == 'p'
+          execute_game
+        end
     end
 
-    until proper_format?
-      puts "\n\nRe-enter like, \'rrgr\' with exactly four characters: "
-      puts "r for red, b for blue, g for green, or y for yellow."
-      format_turn
-    end
-
-    @turn.join
+    outtro
   end
-
 
   def assign_instructions(parts)
     if parts   == 'p'
@@ -50,7 +37,6 @@ class Cli
       puts "I have generated a beginner level sequence with four"
       puts "elements made up of: (r)ed, (b)lue, (g)reen, (y)ellow."
       puts "Use (q)uit at anytime to end the game."
-      # puts "\n\nBeginner"
       puts "\nI'll get the game...\n"
     else parts == 'i'
       puts "\n"
@@ -75,10 +61,10 @@ class Cli
 
       matching_elements  = validator.checker(@turn, code)
       matching_positions = validator.checker_index(@turn, code)
-      puts "\n\n\n"
-      puts "\'#{@turn.attempt}\' has #{matching_elements} of the correct elements with"
-      puts "#{matching_positions} in the correct positions."
-      puts "\n\n\nYou've taken #{game.num_of_guesses} #{guess_es}."
+        puts "\n\n\n"
+        puts "\'#{@turn.attempt}\' has #{matching_elements} of the correct elements with"
+        puts "#{matching_positions} in the correct positions."
+        puts "\n\n\nYou've taken #{game.num_of_guesses} #{guess_es}."
       @turn = Guess.new(format_turn)
       game.turn(@turn)
     end
@@ -94,6 +80,28 @@ class Cli
     end
   end
 
+  def process_input
+    gets.strip.downcase
+  end
+
+  def proper_format?
+    (@turn.length == 4) || (@turn[0] == 'q')
+  end
+
+  def format_turn
+    @turn = gets.downcase.split("").select do |letter|
+      letter =~ /[rgbyq]/
+    end
+
+    until proper_format?
+      puts "\n\nRe-enter like, \'rrgr\' with exactly four characters: "
+      puts "r for red, b for blue, g for green, or y for yellow."
+      format_turn
+    end
+
+    @turn.join
+  end
+
   def guess_es
     if game.num_of_guesses < 2
       "guess"
@@ -107,20 +115,6 @@ class Cli
     puts "Welcome to MASTERMIND"
     puts "Would you like to (p)lay, read the (i)nstructions, or (q)uit?"
     puts "\n"
-  end
-
-  def start
-    intro
-
-    while commands != 'q'
-      @commands = process_input
-      assign_instructions(@commands)
-        if @commands == 'p'
-          execute_game
-        end
-    end
-
-    outtro
   end
 
   def outtro

@@ -4,18 +4,8 @@ class CodeGenerator
   attr_reader :level, :sequence, :length
 
   def initialize(level='beginner')
-    @length = length
-    @level = level
-    if @level == 'beginner'
-      @level = beginner
-      @length = 4
-    elsif @level == 'advanced'
-      @level = advanced
-      @length = 6
-    else @level == 'expert'
-      @level = expert
-      @length = 8
-    end
+    @length = 4
+    @level = beginner
   end
 
   def code
@@ -29,15 +19,15 @@ class CodeGenerator
   private
 
   def beginner
-    beginner = %w(r g b y)
+    %w(r g b y)
   end
 
   def advanced
-    advanced = %w(r o y g b )
+    %w(r o y g b )
   end
 
   def expert
-    expert   = %w(r o y g b p)
+    %w(r o y g b p)
   end
 end
 

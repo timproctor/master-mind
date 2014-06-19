@@ -12,11 +12,13 @@ class CodeGeneratorTest<Minitest::Test
   end
 
   def test_that_code_is_advanced
+    skip
     generator = CodeGenerator.new("advanced")
     assert_equal ["r","o","y","g","b"] , generator.level
   end
 
   def test_that_code_is_expert
+    skip
     generator = CodeGenerator.new("expert")
     assert_equal ["r","o","y","g","b","p"], generator.level
   end

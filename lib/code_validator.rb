@@ -8,9 +8,9 @@ class CodeValidator
     guess = guess.attempt.split("")
     code  = code.sequence.split("")
     count = 0
-    guess.length.times do |index|
+    guess.length.times do |index1|
       code.length.times do |index2|
-        if guess[index] == code[index2]
+        if guess[index1] == code[index2]
           count += 1
           code[index2] = ""
           break
